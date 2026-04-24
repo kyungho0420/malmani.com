@@ -1,22 +1,88 @@
-/*
-    Project: Canvas Express V1
-    Last Modified: 2025-10-17
-    Author: Maxim (www.maxim.pe.kr)
- */
+
 :root {
-    --canvas-rgb: 150, 200, 250;
+    --damso-bg-button: #96c8fa;
+    --damso-bg-button-hover: #4389ca;
+    
+    --damso-color-primary: #96c8fa;
+    --damso-color-primary-rgb: 150, 200, 250;
+    --damso-overlay-dot: rgba(150, 200, 250, 0.08);
+
+    --text-color: #ffffff;
+    --accent-color: #96c8fa;
+    --accent-color-rgb: 150, 200, 250;
+
+    /* Glitch Effect Color */
+    --dot-canvas-color: rgba(150, 200, 250, 0.35);
 }
 
-.logo-title {
+.damso-header {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.damso-header__brand {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    animation: brandingFadeIn 1.5s ease-out;
+}
+
+@keyframes brandingFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-logo {
+    font-weight: 700;
+    font-size: clamp(3em, 2.5em + 5vw, 5.5em);
     font-family: "Comfortaa", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: bold;
-    text-shadow: 0 0 20px var(--accent-color);
+    margin: 0 0 0 -0.05em;
+    text-shadow: 0 0 25px rgba(150, 200, 250, 0.5);
     color: var(--text-color);
+    line-height: 1;
+    letter-spacing: -0.05em;
 }
 
-.logo-subtitle {
-    margin-left: 0.05rem;
-    letter-spacing: 0.05rem;
+.brand-slogan {
+    font-family: "Kanit", sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    font-weight: 400;
+    margin: 0.5rem 0 0 0.15em;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: lowercase;
 }
 
+.damso-action-group__item {
+    background: rgba(150, 200, 250, 0.15);
+    border-color: rgba(150, 200, 250, 0.25);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.damso-action-group__item:hover {
+    background: rgba(150, 200, 250, 0.35);
+    border-color: rgba(150, 200, 250, 0.45);
+    transform: translateY(-2px);
+}
+
+
+.damso-canvas__image,
+.damso-canvas__slide {
+    filter: brightness(0.3) contrast(1.1) grayscale(0.5) blur(8px);
+}
+
+.damso-canvas__effect {
+    z-index: 5;
+}
+
+.damso-canvas__overlay {
+    z-index: 2;
+}

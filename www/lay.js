@@ -1,59 +1,84 @@
-/*
-    Project: Canvas Express V1
-    Last Modified: 2025-10-17
-    Author: Maxim (www.maxim.pe.kr)
+/**
+ * Project: MALMANI (EXPRESS V4)
+ * Author: Damso Universe
  */
+
 const siteConfig = {
-    TURNSTILE_SITE_KEY: '0x4AAAAAAB1Gk9ll6ulH4ZDi',
-    icon_buttons: [
-        { name: 'Youtube', icon: 'youtube_activity', url: 'https://www.youtube.com/@malmani' },
-    ],
-    canvas_effect: 'digitalGlitch',
-    
-    // Updated canvas image settings
-    canvas_image_type: 'cover', // 'none', 'cover', or 'repeat'
-    canvas_image_count: 6,
-    canvas_image_path: './section/bg/',
-    canvas_image_format: 'webp',
+    meta: {
+        framework: 'V4',
+        type: 'screen',
+        lang: 'ko',
+        theme: 'dark',
+        symbol: true
+    },
+    canvas: {
+        target: '.damso-header',
+        effect: 'digitalGlitch',
+        overlay: 'dotted',
+        image_path: './section/bg/',
+        image_count: 6,
+        image_format: 'webp',
+        standalone: true
+    },
+    buttons: [
+        { name: 'Contact', icon: 'mail', url: '#contact' },
+        { name: 'Search', icon: 'search', url: '#search' },
+        { name: 'Youtube', icon: 'play_arrow', url: 'https://www.youtube.com/@malmani' }
+    ]
 };
 
-const digitalGlitchEffect = {
-    init() {
-        this.canvas = document.getElementById('bg-canvas');
-        if (!this.canvas) return;
+/**
+ * Digital Glitch Effect Plugin for V4
+ */
+const digitalGlitchPlugin = {
+    init(wrapper) {
+        this.canvas = document.createElement('canvas');
+        this.canvas.className = 'damso-canvas__effect';
+        wrapper.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
-        this.glitches = [];
-        this.animationFrameId = null;
-        this.lastGlitchTime = 0;
-        this.glitchInterval = 100 + Math.random() * 200; // Randomize interval
-
-        window.addEventListener('resize', () => this.handleResize(), false);
         
+        this.glitches = [];
+        this.lastGlitchTime = 0;
+        this.glitchInterval = 100 + Math.random() * 200;
+
+        this.updateColor();
         this.handleResize();
         this.animate(0);
+
+        window.addEventListener('resize', () => this.handleResize());
     },
-    handleResize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        this.updateColor();
-    },
+
     updateColor() {
-        this.color = getComputedStyle(document.documentElement).getPropertyValue('--dot-canvas-color').trim();
+        this.color = getComputedStyle(document.documentElement).getPropertyValue('--dot-canvas-color').trim() || 'rgba(255,255,255,0.4)';
     },
+
+    handleResize() {
+        if (!this.canvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = rect.height * dpr;
+        this.ctx.scale(dpr, dpr);
+        this.logicalWidth = rect.width;
+        this.logicalHeight = rect.height;
+    },
+
     createGlitches(count) {
         this.glitches = [];
         for (let i = 0; i < count; i++) {
             this.glitches.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
+                x: Math.random() * this.logicalWidth,
+                y: Math.random() * this.logicalHeight,
                 width: Math.random() * 250 + 50,
                 height: Math.random() * 2.5 + 1,
                 alpha: Math.random() * 0.4 + 0.1,
             });
         }
     },
+
     animate(timestamp) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        if (!this.ctx) return;
+        this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
 
         if (timestamp - this.lastGlitchTime > this.glitchInterval) {
             this.lastGlitchTime = timestamp;
@@ -71,12 +96,20 @@ const digitalGlitchEffect = {
         }
         
         this.ctx.globalAlpha = 1.0;
-        this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
+        requestAnimationFrame((t) => this.animate(t));
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    CanvasExpress.registerEffect('digitalGlitch', digitalGlitchEffect);
-    CanvasExpress.init(siteConfig);
-});
+/**
+ * Initialize V4 Application
+ */
+window.addEventListener('DOMContentLoaded', async () => {
+    if (!window.V4) return;
 
+    // Register Effect
+    window.V4.Effects = window.V4.Effects || {};
+    window.V4.Effects.digitalGlitch = digitalGlitchPlugin;
+
+    // Initialize Engine
+    await window.V4.init(siteConfig);
+});
