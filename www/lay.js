@@ -9,7 +9,7 @@ const siteConfig = {
         type: 'screen',
         lang: 'ko',
         theme: 'dark',
-        symbol: true
+        symbol: false
     },
     canvas: {
         target: '.damso-header',
@@ -17,6 +17,7 @@ const siteConfig = {
         overlay: 'dotted',
         image_path: './section/bg/',
         image_count: 6,
+        image_slide: 7,
         image_format: 'webp',
         standalone: true
     },
