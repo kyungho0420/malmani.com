@@ -1,12 +1,8 @@
 {
     "en": {
-        "home_title": "Malmani",
-        "meta_description": "Where the horse goes, the talk follows",
-        "site_slogan": "where the horse goes, the talk follows"
+        "site_title": "Malmani"
     },
     "ko": {
-        "home_title": "말마니",
-        "meta_description": "말이 가는 곳에 이야기가 따릅니다",
-        "site_slogan": "말이 가는 곳에 이야기가 따릅니다"
+        "site_title": "말마니"
     }
 }
