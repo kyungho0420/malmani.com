@@ -44,7 +44,6 @@ const digitalGlitchPlugin = {
 
         this.updateColor();
         this.handleResize();
-        this.animate(0);
 
         window.addEventListener('resize', () => this.handleResize());
     },
@@ -77,8 +76,9 @@ const digitalGlitchPlugin = {
         }
     },
 
-    animate(timestamp) {
+    draw() {
         if (!this.ctx) return;
+        const timestamp = performance.now();
         this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
 
         if (timestamp - this.lastGlitchTime > this.glitchInterval) {
@@ -97,7 +97,6 @@ const digitalGlitchPlugin = {
         }
         
         this.ctx.globalAlpha = 1.0;
-        requestAnimationFrame((t) => this.animate(t));
     }
 };
 
