@@ -1,14 +1,14 @@
 {
     "_default": {
-        "home_title": "Malmani",
-        "home_description": ""
+        "home_title": "malmani",
+        "home_description": "where the horse goes, the talk follows"
     },
     "en": {
         "meta_title": "Malmani",
-        "meta_description": ""
+        "meta_description": "where the horse goes, the talk follows"
     },
     "ko": {
         "meta_title": "말마니",
-        "meta_description": ""
+        "meta_description": "말 같지 않은 내 말이 그 말이다."
     }
 }
