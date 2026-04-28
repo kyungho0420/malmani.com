@@ -15,19 +15,7 @@
     --dot-canvas-color: rgba(150, 200, 250, 0.35);
 }
 
-.damso-header {
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background-color: transparent;
-}
-
-.damso-header__brand {
+.damso-header__content {
     position: relative;
     z-index: 10;
     pointer-events: auto;

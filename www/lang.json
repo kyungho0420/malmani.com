@@ -1,8 +1,14 @@
 {
+    "_default": {
+        "home_title": "Malmani",
+        "home_description": ""
+    },
     "en": {
-        "site_title": "Malmani"
+        "meta_title": "Malmani",
+        "meta_description": ""
     },
     "ko": {
-        "site_title": "말마니"
+        "meta_title": "말마니",
+        "meta_description": ""
     }
 }
