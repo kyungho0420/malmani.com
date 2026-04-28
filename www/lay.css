@@ -1,18 +1,18 @@
 
 :root {
-    --damso-bg-button: #96c8fa;
-    --damso-bg-button-hover: #4389ca;
+    --damso-btn-color-bg: #96c8fa;
+    --damso-btn-color-bg-hover: #4389ca;
     
     --damso-color-primary: #96c8fa;
     --damso-color-primary-rgb: 150, 200, 250;
-    --damso-overlay-dot: rgba(150, 200, 250, 0.08);
+    --damso-overlay-dot: rgba(var(--damso-color-primary-rgb), 0.08);
 
-    --text-color: #ffffff;
-    --accent-color: #96c8fa;
-    --accent-color-rgb: 150, 200, 250;
+    --damso-color-text: #ffffff;
+    --damso-color-accent: #96c8fa;
+    --damso-color-accent-rgb: 150, 200, 250;
 
     /* Glitch Effect Color */
-    --dot-canvas-color: rgba(150, 200, 250, 0.35);
+    --dot-canvas-color: rgba(var(--damso-color-accent-rgb), 0.35);
 }
 
 .damso-header__content {
@@ -32,8 +32,8 @@
     font-size: clamp(3em, 2.5em + 5vw, 5.5em);
     font-family: "Comfortaa", sans-serif;
     margin: 0 0 0 -0.05em;
-    text-shadow: 0 0 25px rgba(150, 200, 250, 0.5);
-    color: var(--text-color);
+    text-shadow: 0 0 25px rgba(var(--damso-color-accent-rgb), 0.5);
+    color: var(--damso-color-text);
     line-height: 1;
     letter-spacing: -0.05em;
 }
@@ -49,15 +49,15 @@
 }
 
 .damso-action-group__item {
-    background: rgba(150, 200, 250, 0.15);
-    border-color: rgba(150, 200, 250, 0.25);
+    background: rgba(var(--damso-color-primary-rgb), 0.15);
+    border-color: rgba(var(--damso-color-primary-rgb), 0.25);
     color: var(--damso-white);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .damso-action-group__item:hover {
-    background: rgba(150, 200, 250, 0.35);
-    border-color: rgba(150, 200, 250, 0.45);
+    background: rgba(var(--damso-color-primary-rgb), 0.35);
+    border-color: rgba(var(--damso-color-primary-rgb), 0.45);
     color: var(--damso-white);
 }
 
