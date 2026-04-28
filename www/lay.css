@@ -51,16 +51,15 @@
 .damso-action-group__item {
     background: rgba(150, 200, 250, 0.15);
     border-color: rgba(150, 200, 250, 0.25);
-    color: #ffffff;
+    color: var(--damso-white);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .damso-action-group__item:hover {
     background: rgba(150, 200, 250, 0.35);
     border-color: rgba(150, 200, 250, 0.45);
-    transform: translateY(-2px);
+    color: var(--damso-white);
 }
-
 
 .damso-canvas__image,
 .damso-canvas__slide {
