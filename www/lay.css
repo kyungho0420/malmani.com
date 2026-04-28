@@ -5,7 +5,7 @@
     
     --damso-color-primary: #96c8fa;
     --damso-color-primary-rgb: 150, 200, 250;
-    --damso-overlay-dot: rgba(var(--damso-color-primary-rgb), 0.08);
+    --damso-overlay-color-dot: rgba(var(--damso-color-primary-rgb), 0.08);
 
     --damso-color-text: #ffffff;
     --damso-color-accent: #96c8fa;
