@@ -46,7 +46,7 @@ const Express = (() => {
                 const cleanedPath = pathname.replace(/index\.html$/, '').replace(/\/$/, '').replace(/^\//, '');
                 domainInfo = { full: hostname, apex: apex, sub: sub, tld: tld, brand: brand, path: cleanedPath };
             }
-            
+
             return {
                 domain: domainInfo.full,
                 domain_apex: domainInfo.apex,
@@ -112,7 +112,7 @@ const Express = (() => {
                 const link = document.createElement('link');
                 link.id = 'ex-core-css';
                 link.rel = 'stylesheet';
-                link.href = 'https://cdn.dam.so/_inc/express/express-v3.css';
+                link.href = 'https://static.dam.so/_inc/express/express-v3.css';
                 document.head.appendChild(link);
             }
         },
@@ -123,7 +123,7 @@ const Express = (() => {
                     e.preventDefault();
                     const link = e.target.closest('.js-demo-link');
                     const href = link.getAttribute('href');
-                    
+
                     const warningMsg = Util.getText('ex_demo_link_warning');
                     const title = Util.getText('ex_demo_title') || 'Notice';
 
@@ -195,9 +195,9 @@ const Express = (() => {
                 const toast = document.createElement('div');
                 toast.className = `ex-toast ex-toast--${type}`;
                 toast.textContent = Util.processText(message);
-                
+
                 container.appendChild(toast);
-                
+
                 requestAnimationFrame(() => toast.classList.add('active'));
 
                 setTimeout(() => {
@@ -217,10 +217,10 @@ const Express = (() => {
 
                     const modal = document.createElement('div');
                     modal.className = 'ex-modal';
-                    
+
                     const titleHtml = title ? `<h3 class="ex-modal__title">${Util.processText(title)}</h3>` : '';
                     const contentHtml = `<div class="ex-modal__content">${Util.processText(content)}</div>`;
-                    
+
                     let buttonsHtml = '';
                     if (options.type === 'confirm') {
                         buttonsHtml = `
@@ -229,7 +229,7 @@ const Express = (() => {
                                 <button class="ex-btn ex-btn--primary" data-action="confirm">${Util.getText('ex_btn_confirm')}</button>
                             </div>`;
                     } else {
-                         buttonsHtml = `
+                        buttonsHtml = `
                             <div class="ex-modal__actions">
                                 <button class="ex-btn ex-btn--primary" data-action="close">${Util.getText('ex_btn_close')}</button>
                             </div>`;
@@ -277,14 +277,14 @@ const Express = (() => {
                 overlay.className = 'ex-lightbox';
                 overlay.innerHTML = `<img src="${src}"><span class="ex-lightbox__close">&times;</span>`;
                 document.body.appendChild(overlay);
-                
+
                 requestAnimationFrame(() => overlay.classList.add('active'));
-                
+
                 const close = () => {
                     overlay.classList.remove('active');
                     setTimeout(() => overlay.remove(), 300);
                 };
-                
+
                 overlay.querySelector('.ex-lightbox__close').addEventListener('click', close);
                 overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
             }
@@ -294,7 +294,7 @@ const Express = (() => {
     const Canvas = {
         init(container, options = {}) {
             if (!container) return;
-            
+
             let canvasLayer = container.querySelector('.ex-canvas');
             if (!canvasLayer) {
                 canvasLayer = document.createElement('div');
@@ -328,17 +328,17 @@ const Express = (() => {
                 canvasLayer.appendChild(effectCanvas);
                 window[options.effect](effectCanvas);
             } else if (options.effect && Express.Effects && Express.Effects[options.effect]) {
-                 const effectCanvas = document.createElement('canvas');
-                 effectCanvas.className = 'ex-canvas__effect';
-                 canvasLayer.appendChild(effectCanvas);
-                 Express.Effects[options.effect].init(canvasLayer);
+                const effectCanvas = document.createElement('canvas');
+                effectCanvas.className = 'ex-canvas__effect';
+                canvasLayer.appendChild(effectCanvas);
+                Express.Effects[options.effect].init(canvasLayer);
             }
         },
 
         initStaticImage(layer, options) {
             const imgNum = Math.floor(Math.random() * options.image_count) + 1;
             const imgSrc = this.getImageSrc(imgNum, options);
-            
+
             const img = document.createElement('img');
             img.className = 'ex-canvas__image is-active';
             img.src = imgSrc;
@@ -349,7 +349,7 @@ const Express = (() => {
         initSlideshow(layer, options) {
             const slideWrapper = document.createElement('div');
             slideWrapper.className = 'ex-canvas__slider';
-            
+
             const slides = [document.createElement('img'), document.createElement('img')];
             slides.forEach(img => {
                 img.className = 'ex-canvas__slide';
@@ -363,7 +363,7 @@ const Express = (() => {
             const run = (isFirst = false) => {
                 const imgNum = order[idx];
                 const imgSrc = this.getImageSrc(imgNum, options);
-                
+
                 const active = slides.find(s => s.classList.contains('is-active'));
                 const next = slides.find(s => !s.classList.contains('is-active')) || slides[0];
 
@@ -411,7 +411,7 @@ const Express = (() => {
                 const userDefault = userJson['_default'] || {};
 
                 langData = { ...coreDefault, ...coreLang, ...userDefault, ...userLangData };
-                
+
                 return langData;
 
             } catch (e) {
@@ -427,7 +427,7 @@ const Express = (() => {
 
     const Security = {
         widgetId: null,
-        
+
         init(siteKey) {
             if (!siteKey) return;
             window.onloadTurnstileCallback = () => this.render(siteKey);
@@ -457,7 +457,7 @@ const Express = (() => {
                 await new Promise(r => setTimeout(r, 100));
                 retries++;
             }
-            
+
             // 2. Wait for Widget to initialize/render (Max 3s)
             retries = 0;
             while (!this.widgetId && retries < 30) {
@@ -474,9 +474,9 @@ const Express = (() => {
 
             if (!this.widgetId) {
                 console.error('Turnstile widget failed to initialize.');
-                return null; 
+                return null;
             }
-            
+
             return new Promise((resolve, reject) => {
                 try {
                     turnstile.execute(this.widgetId, {
@@ -495,7 +495,7 @@ const Express = (() => {
 
         reset() {
             if (this.widgetId && typeof turnstile !== 'undefined') {
-                try { turnstile.reset(this.widgetId); } catch(e) {}
+                try { turnstile.reset(this.widgetId); } catch (e) { }
             }
         }
     };
@@ -503,13 +503,13 @@ const Express = (() => {
     const API = {
         async post(endpoint, body, btnElement = null, options = {}) {
             if (btnElement) UI.Loader.show(btnElement);
-            
+
             if (options.demoMode) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         if (btnElement) UI.Loader.hide(btnElement);
                         const demoMsg = Util.getText(options.demoKey || 'ex_contact_success_demo');
-                        resolve({ success: true, message: demoMsg, found: false }); 
+                        resolve({ success: true, message: demoMsg, found: false });
                     }, 1500);
                 });
             }
@@ -532,11 +532,11 @@ const Express = (() => {
                 });
 
                 const result = await response.json();
-                
+
                 if (!result.success) {
                     throw new Error(result.message || Util.getText('ex_error_api'));
                 }
-                
+
                 return result;
 
             } catch (error) {
@@ -552,23 +552,23 @@ const Express = (() => {
     const init = async (siteConfig) => {
         if (isInitialized) return;
         config = siteConfig || {};
-        
+
         UI.init();
-        
+
         const urlParams = new URLSearchParams(window.location.search);
         let lang = urlParams.get('lang');
 
         if (lang) {
             localStorage.setItem('preferredLanguage', lang);
             const newUrl = window.location.pathname + window.location.hash;
-            if(history.pushState) history.pushState({ path: newUrl }, '', newUrl);
+            if (history.pushState) history.pushState({ path: newUrl }, '', newUrl);
         } else {
             lang = localStorage.getItem('preferredLanguage') || config.language || document.documentElement.lang || 'en';
         }
 
         document.documentElement.lang = lang;
         await Data.load(lang);
-        
+
         if (config.TURNSTILE_SITE_KEY) {
             const script = document.createElement('script');
             script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback';
@@ -580,7 +580,7 @@ const Express = (() => {
 
         UI.Lightbox.init();
         isInitialized = true;
-        
+
         return {
             config,
             Util,

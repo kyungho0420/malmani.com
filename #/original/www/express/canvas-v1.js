@@ -56,20 +56,20 @@ const CanvasExpress = (() => {
         initSlideshow(duration) {
             const container = document.createElement('div');
             container.className = 'bg-image-slider';
-            
+
             this.slideImages = [document.createElement('img'), document.createElement('img')];
             this.slideImages.forEach(img => {
                 img.className = 'bg-image-item';
                 img.alt = "";
                 container.appendChild(img);
             });
-            
+
             $('body').prepend(container);
-            
+
             if (config.canvas_indicators === true && config.canvas_image_count > 1) {
                 this.indicatorsContainer = document.createElement('div');
                 this.indicatorsContainer.className = 'slide-indicators';
-                
+
                 const fragment = document.createDocumentFragment();
                 for (let i = 0; i < config.canvas_image_count; i++) {
                     const dot = document.createElement('span');
@@ -79,15 +79,15 @@ const CanvasExpress = (() => {
                 this.indicatorsContainer.appendChild(fragment);
                 $('body').appendChild(this.indicatorsContainer);
             }
-            
+
             this.slideOrder = this.createShuffleList(config.canvas_image_count);
             this.currentSlideIndex = 0;
-            
+
             this.runSlide(true);
-            
+
             this.slideInterval = setInterval(() => this.runSlide(false), duration * 1000);
         },
-        
+
         runSlide(isFirstRun = false) {
             if (!this.slideOrder.length) return;
 
@@ -107,14 +107,14 @@ const CanvasExpress = (() => {
                     inactiveImg.classList.add('active');
                 };
             }
-            
+
             if (this.indicatorsContainer && this.indicatorDots.length > 0) {
                 this.indicatorDots.forEach(dot => dot.classList.remove('active'));
                 if (this.indicatorDots[this.currentSlideIndex]) {
                     this.indicatorDots[this.currentSlideIndex].classList.add('active');
                 }
             }
-            
+
             this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slideOrder.length;
         },
 
@@ -126,13 +126,13 @@ const CanvasExpress = (() => {
             }
             return list;
         },
-        
+
         getImageSrc(imgNum) {
             const format = config.canvas_image_format || 'webp';
             return `${config.canvas_image_path}${imgNum}.${format}`;
         }
     };
-    
+
     const uiManager = {
         init() {
             this.injectIconButtons();
@@ -147,7 +147,7 @@ const CanvasExpress = (() => {
             logoLink.setAttribute('aria-label', 'Damso Home');
 
             const logoImg = document.createElement('img');
-            logoImg.src = 'https://cdn.dam.so/_image/css/damso-symbol-mobile.png';
+            logoImg.src = 'https://static.dam.so/_image/css/damso-symbol-mobile.png';
             logoImg.alt = 'Damso Logo';
 
             logoLink.appendChild(logoImg);
@@ -156,13 +156,13 @@ const CanvasExpress = (() => {
         injectIconButtons() {
             const container = $('#buttons-container');
             if (!container) return;
-            
+
             container.classList.add(isV0 ? 'buttons-v0' : 'buttons-v1');
-            
+
             if (!config.icon_buttons || config.icon_buttons.length === 0) {
                 return;
             }
-            
+
             const btnClass = isV0 ? 'icon-button' : 'fab';
             const fragment = document.createDocumentFragment();
             config.icon_buttons.forEach(btn => {
@@ -194,16 +194,16 @@ const CanvasExpress = (() => {
     const createCooldownManager = (options) => {
         let cooldownUntil = 0; let timer = null;
         const { key, duration, statusElement, messageFn } = options;
-        
+
         const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
 
         return {
-            init() { 
-                const stored = localStorage.getItem(key); 
-                if (stored && parseInt(stored) > Date.now()) { 
-                    cooldownUntil = parseInt(stored); 
+            init() {
+                const stored = localStorage.getItem(key);
+                if (stored && parseInt(stored) > Date.now()) {
+                    cooldownUntil = parseInt(stored);
                     this.start();
-                } 
+                }
             },
             isActive: () => Date.now() < cooldownUntil,
             set() { cooldownUntil = Date.now() + duration; localStorage.setItem(key, cooldownUntil); },
@@ -255,17 +255,17 @@ const CanvasExpress = (() => {
             if (resultArea) resultArea.innerHTML = '';
         }
     };
-    
+
     const turnstileManager = {
         widgetId: null,
         isExecuting: false,
 
-        render() { 
-            if (typeof turnstile !== 'undefined' && config.TURNSTILE_SITE_KEY) { 
-                this.widgetId = turnstile.render('#turnstile-container', { 
-                    sitekey: config.TURNSTILE_SITE_KEY, 
-                    size: 'invisible' 
-                }); 
+        render() {
+            if (typeof turnstile !== 'undefined' && config.TURNSTILE_SITE_KEY) {
+                this.widgetId = turnstile.render('#turnstile-container', {
+                    sitekey: config.TURNSTILE_SITE_KEY,
+                    size: 'invisible'
+                });
             }
         },
 
@@ -274,27 +274,27 @@ const CanvasExpress = (() => {
                 if (!this.widgetId) {
                     return reject(new Error("Turnstile is not configured or ready."));
                 }
-                
+
                 if (this.isExecuting) {
                     return reject(new Error("Another CAPTCHA request is in progress. Please wait."));
                 }
-                
+
                 this.isExecuting = true;
 
-                try { 
-                    turnstile.execute(this.widgetId, { 
+                try {
+                    turnstile.execute(this.widgetId, {
                         callback: token => {
                             if (token) {
                                 resolve(token);
                             } else {
-                                this.isExecuting = false; 
+                                this.isExecuting = false;
                                 reject(new Error("CAPTCHA challenge failed."));
                             }
-                        } 
-                    }); 
-                } catch (e) { 
-                    this.isExecuting = false; 
-                    reject(new Error("Could not execute CAPTCHA.")); 
+                        }
+                    });
+                } catch (e) {
+                    this.isExecuting = false;
+                    reject(new Error("Could not execute CAPTCHA."));
                 }
             });
         },
@@ -303,10 +303,10 @@ const CanvasExpress = (() => {
             if (turnstile && this.widgetId) {
                 turnstile.reset(this.widgetId);
             }
-            this.isExecuting = false; 
+            this.isExecuting = false;
         }
     };
-    
+
     const api = {
         async post(endpoint, body) {
             const token = await turnstileManager.getToken();
@@ -323,11 +323,11 @@ const CanvasExpress = (() => {
             return result;
         }
     };
-    
+
     async function handleApiFormSubmit(options) {
         const { form, button, statusEl, cooldown, getPayload, onSuccess } = options;
         if (cooldown.isActive()) { cooldown.start(); return; }
-        
+
         cooldown.stop();
         uiManager.setStatusMessage(statusEl, '', '');
         uiManager.toggleButtonState(button, true);
@@ -360,7 +360,7 @@ const CanvasExpress = (() => {
                 messageFn: s => `You can search again in ${s} seconds.`
             });
             cooldown.init();
-            
+
             form.action = '/api/conn.search';
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -392,7 +392,7 @@ const CanvasExpress = (() => {
             const template = $('#contact-form-template');
             if (!template) return;
             $('#contact-view .view-content')?.appendChild(template.content.cloneNode(true));
-            
+
             const form = $('#contact-form');
             if (!form) return;
             const button = form.querySelector('button[type="submit"]');
@@ -413,7 +413,7 @@ const CanvasExpress = (() => {
                         uiManager.setStatusMessage(statusEl, result.message, 'green');
                         f.reset();
                         const charCounter = f.querySelector('.char-counter');
-                        if(charCounter) charCounter.textContent = '0/1024';
+                        if (charCounter) charCounter.textContent = '0/1024';
                         setTimeout(() => viewManager.closeAll(), 2000);
                     }
                 });
@@ -426,18 +426,18 @@ const CanvasExpress = (() => {
             }
         }
     };
-    
+
     return {
         init: (userConfig) => {
             config = userConfig;
             isV0 = document.body.classList.contains('canvas-mode-v0');
-            
+
             canvasManager.init();
             uiManager.init();
 
             if (!isV0) {
                 Object.values({ viewManager, forms }).forEach(module => module.init());
-                
+
                 window.onloadTurnstileCallback = () => turnstileManager.render();
                 if (typeof turnstile !== 'undefined') turnstileManager.render();
 
@@ -453,5 +453,5 @@ const CanvasExpress = (() => {
         getTurnstileToken: () => turnstileManager.getToken(),
         resetTurnstile: () => turnstileManager.reset()
     };
-    
+
 })();
