@@ -1,5 +1,5 @@
 /**
- * Project: MALMANI (EXPRESS V4)
+ * Project: MALMANI (EXPRESS V1)
  * Author: Damso Universe
  */
 
@@ -101,15 +101,15 @@ const digitalGlitchPlugin = {
 };
 
 /**
- * Initialize V4 Application
+ * Initialize V1 Application
  */
 window.addEventListener('DOMContentLoaded', async () => {
-    if (!window.V4) return;
+    if (!window.V1) return;
 
     // Register Effect
-    window.V4.Effects = window.V4.Effects || {};
-    window.V4.Effects.digitalGlitch = digitalGlitchPlugin;
+    window.V1.Effects = window.V1.Effects || {};
+    window.V1.Effects.digitalGlitch = digitalGlitchPlugin;
 
     // Initialize Engine
-    await window.V4.init(siteConfig);
+    await window.V1.init(siteConfig);
 });
